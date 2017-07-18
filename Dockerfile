@@ -17,7 +17,7 @@ RUN pip install -r requirements/base.txt
 RUN paver install_pages
 
 # Setting up environment variables
-RUN ./edx-e2e-tests/local_env.sh
+RUN source local_env.sh
 
 # Edit the CMD command to run specific tests
 CMD paver e2e_test
