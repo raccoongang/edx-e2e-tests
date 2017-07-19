@@ -1,13 +1,13 @@
 version: '2'
 services:
-  web:
+  e2e-tests:
     build: .
     ports:
      - "5000:5000"
     volumes:
      - .:/edx-e2e-tests
   firefox:
-    image: "selenium/standalone-firefox-debug"
+    image: "selenium/standalone-firefox"
     ports:
       - "4444:4444"
     volumes:

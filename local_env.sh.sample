@@ -13,11 +13,15 @@ export COURSE_NUMBER=<FILLIN>
 export COURSE_RUN=<FILLIN>
 export COURSE_DISPLAY_NAME=<FILLIN>
 export ACCESS_TOKEN=<FILLIN>
-
-# Additional environment variables need to be set for whitelabel tests
-
 export GLOBAL_PASSWORD=<FILLIN>
 export STAFF_USER_EMAIL=<FILLIN>
 export TEST_EMAIL_SERVICE=<FILLIN>
 export TEST_EMAIL_ACCOUNT=<FILLIN>
 export TEST_EMAIL_PASSWORD=<FILLIN>
+
+# Following set prior to issuing the paver e2e_test command, will tell the
+# test runner to use the container's browser
+
+export SELENIUM_BROWSER=firefox
+export SELENIUM_HOST=10.0.2.2
+export SELENIUM_PORT=4444

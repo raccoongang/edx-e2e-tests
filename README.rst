@@ -44,7 +44,11 @@ OR Using Dockers
 
 1. git clone https://github.com/edx/edx-e2e-tests
 
-2. docker-compose up
+2. docker-compose up --build
+
+3. docker exec -it edxe2etests_e2e-tests_1 /bin/bash
+
+4. source local_env.sh (make sure you have replaced the local_env.sh.sample)
 
 Configuration
 -------------
