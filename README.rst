@@ -50,6 +50,8 @@ OR Using Dockers
 
 4. source local_env.sh (make sure you have replaced the local_env.sh.sample)
 
+5. run lms and studio tests, as given belows
+
 Configuration
 -------------
 

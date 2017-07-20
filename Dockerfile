@@ -16,5 +16,5 @@ RUN apt-get install git
 RUN pip install -r requirements/base.txt
 RUN paver install_pages
 
-# Set up environment variables and Edit the CMD command to run specific tests
+# Set up environment variables
 CMD sleep 10000

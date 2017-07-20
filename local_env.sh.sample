@@ -23,5 +23,5 @@ export TEST_EMAIL_PASSWORD=<FILLIN>
 # test runner to use the container's browser
 
 export SELENIUM_BROWSER=firefox
-export SELENIUM_HOST=10.0.2.2
+export SELENIUM_HOST=<FILLINYOURMACHINEIP>
 export SELENIUM_PORT=4444
