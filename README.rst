@@ -42,15 +42,32 @@ For additional information on how to setup your development environment, see `De
 OR Using Dockers
 ------------
 
-1. git clone https://github.com/edx/edx-e2e-tests
+1. Clone the repo:
 
-2. docker-compose up --build
+.. code:: bash
+    git clone https://github.com/edx/edx-e2e-tests
 
-3. docker exec -it edxe2etests_e2e-tests_1 /bin/bash
+2. Build up:
 
-4. source local_env.sh (make sure you have replaced the local_env.sh.sample)
+.. code:: bash
+    docker-compose up --build
 
-5. run lms and studio tests, as given belows
+3. Open a new terminal window and work inside the container:
+
+.. code:: bash
+    docker exec -it edxe2etests /bin/bash
+
+4. Set the environment variables:
+
+.. code:: bash
+    source local_env.sh (make sure you have replaced the local_env.sh.sample)
+
+5. Run lms and studio tests, as given below in 'How to run LMS and Studio tests' section
+
+6. In OSX at least (not sure about other host systems) you can VNC in with the following (the password is 'secret'):
+
+.. code:: bash
+    open vnc://localhost:5900
 
 Configuration
 -------------

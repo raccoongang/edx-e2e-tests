@@ -5,16 +5,14 @@ ADD . /edx-e2e-tests
 WORKDIR /edx-e2e-tests
 
 # Configuration
-RUN apt-get update
-RUN pip install paver
-
+RUN apt-get update && apt-get install git
 RUN pip install virtualenv==1.10.1
 RUN pip install virtualenvwrapper
+ENV PATH $PATH:venv/bin/activate
 
-RUN apt-get install git
-
+# Install requirements and pages
 RUN pip install -r requirements/base.txt
 RUN paver install_pages
 
 # Set up environment variables
-CMD sleep 10000
+CMD ["sleep", "infinity"]
