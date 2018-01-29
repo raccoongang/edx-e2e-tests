@@ -26,7 +26,4 @@ class DiscussionTest(WebAppTest):
 
         discussion_page.visit()
         discussion_page.wait_for_page()
-        try:
-            discussion_page.is_browser_on_page()
-        except False:
-            print('FAIL')
+        discussion_page.is_browser_on_page()
