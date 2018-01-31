@@ -26,4 +26,5 @@ class DiscussionTest(WebAppTest):
 
         discussion_page.visit()
         discussion_page.wait_for_page()
-        discussion_page.is_browser_on_page()
+        while discussion_page.is_browser_on_page():
+            break
