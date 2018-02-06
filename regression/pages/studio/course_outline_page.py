@@ -137,3 +137,20 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Returns section names of all sections.
         """
         return self.q(css='.section-title').text
+
+    def expand_subsections(self, selector):
+        """
+        Expands subsections
+        """
+        return self.q(css=selector).click()
+
+    def open_unit(self, unit_name):
+        """
+        Open particular unit
+        """
+        units = self.q(css='.unit-title.item-title a')
+        for vals in units:
+            if unit_name in vals.text:
+                vals.click()
+                return
+        raise Exception
