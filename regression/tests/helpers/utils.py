@@ -7,6 +7,7 @@ import uuid
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
+from regression.pages.lms.activate_account import ActivateAccountExtended
 from regression.pages.whitelabel.const import (
     ORG,
     PASSWORD,
@@ -244,3 +245,32 @@ def construct_course_basket_page_url(course_id):
     """
     return 'account/finish_auth?course_id={}&enrollment_action=enroll&' \
            'purchase_workflow=single&next=/dashboard'.format(course_id)
+
+
+def activate_account_updated(test, email_api):
+    """
+    Activates an account.
+
+    Fetch activation url from email, open the activation link in a new
+    window, verify that account is activated.
+
+    Arguments:
+        test: The browser on which activation is performed.
+        email_api(GuerrillaMailApi): Api to access GuerrillaMail.
+    """
+    main_window = test.browser.current_window_handle
+    # Get activation link from email
+    activation_url = email_api.get_url_from_email(
+        'activate'
+    )
+    # Open a new window and go to activation link in this window
+    test.browser.execute_script("window.open('');")
+    test.browser.switch_to.window(test.browser.window_handles[-1])
+    account_activate_page = ActivateAccountExtended(test.browser, activation_url)
+    account_activate_page.visit()
+    # Verify that activation is complete
+    test.assertTrue(account_activate_page.is_account_activation_complete)
+    test.browser.close()
+    # Switch back to original window and refresh the page
+    test.browser.switch_to.window(main_window)
+    test.browser.refresh()
