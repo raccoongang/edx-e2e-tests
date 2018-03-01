@@ -36,7 +36,7 @@ class TestNewUserRegistration(WebAppTest):
 
         self.user_registration.is_browser_on_page()
 
-        GuerillaMail = GuerrillaMailApi(creds[1])
+        GuerillaMail = GuerrillaMailApi(creds[0])
         generate_email = GuerillaMail.user_email
         self.user_registration.register_user(
             email=generate_email,
