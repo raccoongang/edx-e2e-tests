@@ -23,6 +23,7 @@ ORG = os.environ.get('ORG', DEFAULT_ORG)
 ##############################################################################
 # E-commerce raw url
 RAW_ECOMMERCE_URL = {
+    'edX': '',
     'RG': '',
     'HarvardMedGlobalAcademy':
         u'https://{}payments.globalacademy-stage.hms.harvard.edu/',
@@ -32,6 +33,7 @@ RAW_ECOMMERCE_URL = {
 
 # BASIC raw URL
 RAW_URL = {
+    'edX': '',
     'RG': '',
     'HarvardMedGlobalAcademy':
         u'https://{}globalacademy-stage.hms.harvard.edu/',
@@ -63,6 +65,7 @@ PROF_COURSE_TITLE = u'{}-E2E-Test'.format(ORG)
 PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
+    'edX': 'demo@raccoongang.com',
     'RG': 'info@raccoongang.com',
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'HarvardXPLUS': 'hxplus-support@edx.org',
@@ -72,6 +75,7 @@ EMAIL_SENDER_ACCOUNTS = {
 EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
 
 LOGO_LINKS = {
+    'edX': '',
     'RG': '',
     'HarvardMedGlobalAcademy': 'hms-logo',
     'HarvardXPLUS': 'harvardX-logo',
@@ -81,6 +85,7 @@ LOGO_LINKS = {
 LOGO_LINK = LOGO_LINKS[ORG]
 
 LOGO_ALT_TEXTS = {
+    'edX': '',
     'RG': '',
     'HarvardMedGlobalAcademy': 'HMS Logo',
     'HarvardXPLUS': 'HarvardX Logo',
@@ -90,6 +95,7 @@ LOGO_ALT_TEXTS = {
 LOGO_ALT_TEXT = LOGO_ALT_TEXTS[ORG]
 
 SOCIAL_MEDIA_LINKS = {
+    'edX': '',
     'RG': '',
     'HarvardMedGlobalAcademy': [
         'https://www.facebook.com/HarvardMed',

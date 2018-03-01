@@ -42,3 +42,14 @@ class DashboardPageExtended(DashboardPage):
             '.item a[href="/logout"]', 'SignOut button'
         )
         self.q(css='.item a[href="/logout"]').click()
+
+    def unenrollment(self, course_title):
+        """
+        Roll down course settings, clicks unenroll button and submit action
+        """
+        options = self.q(css='button[data-course-name="{}"]'.format(course_title))
+        options.click()
+        unenroll_button = self.q(css='a[data-course-name="{}"]'.format(course_title))
+        unenroll_button.click()
+        unenroll_splash = self.q(css='div input[name="submit"]')
+        unenroll_splash.click()
