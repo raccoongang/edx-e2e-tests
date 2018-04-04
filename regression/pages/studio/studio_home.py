@@ -60,9 +60,9 @@ class DashboardPageExtended(DashboardPage):
             'course_num': course_info['number'],
             'course_run': course_info['run']
         })
-        self.browser.execute_script(
-            "document.querySelectorAll('[data-course-key = \""
-            "{}\"] .view-button')[0].click();".format(str(course_key)))
+
+        self.q(css='[data-course-key="{}"]'.format(course_key)).click()
+        self.q(css='.view-button').click()
         self.browser.switch_to_window(self.browser.window_handles[-1])
 
     def click_terms_of_service(self):
