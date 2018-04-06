@@ -158,6 +158,13 @@ def e2e_wl_test(args):
 
 
 @task
+@needs('configure_e2e_tests_pre_reqs')
+@consume_args
+def revert_course():
+    sh(NoseCommand.command(E2E_TEST_REPORT, ['helpers/revert_course.py:TestCourseImport']))
+
+
+@task
 def configure_enterprise_tests_pre_reqs():
 
     # Make sure environment variables are set.
