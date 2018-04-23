@@ -1,11 +1,7 @@
 """
 Course about page
 """
-import os
-from edxapp_acceptance.pages.lms.course_info import CourseInfoPage
-from regression.pages.lms import LOGIN_BASE_URL
 from edxapp_acceptance.pages.lms.course_about import CourseAboutPage
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms import LOGIN_BASE_URL
 
 
