@@ -53,7 +53,7 @@ class StudioCourseOutlineTest(WebAppTest):
 
         # First verify the Help link
         expected_href = EDXAPP_CMS_DOC_LINK_BASE_URL + \
-            '/en/latest/developing_course/controlling_content_visibility.html'
+            '/en/open-release-ficus.master/developing_course/controlling_content_visibility.html'
         # Assert that help link is correct.
         assert_side_bar_help_link(
             test=self,

@@ -13,7 +13,7 @@ STUDIO_STAGE_BASE_URL = 'studio.stage.edx.org'
 
 EDXAPP_CMS_DOC_LINK_BASE_URL = os.environ.get(
     'EDXAPP_CMS_DOC_LINK_BASE_URL',
-    'https://edx.readthedocs.io/projects/edx-partner-course-staff')
+    'https://edx.readthedocs.io/projects/open-edx-building-and-running-a-course')
 STUDIO_BASE_URL = os.environ.get('STUDIO_BASE_URL', STUDIO_STAGE_BASE_URL)
 STUDIO_PROTOCOL = os.environ.get('STUDIO_PROTOCOL', 'https')
 

@@ -1,6 +1,7 @@
 import os
 
 from bok_choy.web_app_test import WebAppTest
+from bok_choy.page_object import PageLoadError
 
 from regression.pages.lms import LMS_STAGE_BASE_URL, LMS_PROTOCOL
 from regression.tests.helpers.api_clients import LmsLoginApi
@@ -21,10 +22,26 @@ class DiscussionTest(WebAppTest):
         login_api.authenticate(self.browser)
         discussion_page = DiscussionThreadPage(self.browser, '.page-content')
 
-        discussion_page.url = '{}://{}/courses/course-v1:{}+{}+{}/discussion/forum/'.format(LMS_PROTOCOL, LMS_BASE_URL,
-                            COURSE_ORG, COURSE_NUMBER, COURSE_RUN)
+        discussion_page.url = '{}://{}/courses/course-v1:{}+{}+{}/discussion/forum/'.format(
+            LMS_PROTOCOL,
+            LMS_BASE_URL,
+            COURSE_ORG,
+            COURSE_NUMBER,
+            COURSE_RUN
+        )
 
-        discussion_page.visit()
+        try:
+            discussion_page.visit()
+        except PageLoadError:
+            discussion_page.url = '{}://{}/courses/{}/{}/{}/discussion/forum/'.format(
+                LMS_PROTOCOL,
+                LMS_BASE_URL,
+                COURSE_ORG,
+                COURSE_NUMBER,
+                COURSE_RUN
+            )
+            discussion_page.visit()
+
         discussion_page.wait_for_page()
         while discussion_page.is_browser_on_page():
             break

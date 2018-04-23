@@ -44,14 +44,13 @@ class TestCourseImport(WebAppTest):
 
     def test_course_updated(self):
         """
-        Course import  using tarball.
+        Revert to Demo Course using tarball.
         """
         self.import_page.visit()
         self.import_page.upload_tarball(self.tarball_name)
         self.import_page.wait_for_upload()
         self.course_outline_page.visit()
         # There's a section named
-        # 'Section :754c5e889ac3489e9947ba62b916bdab' in the tarball.
         self.assertIn(
             "Example Week 1: Getting Started",
             self.course_outline_page.get_section_names()
