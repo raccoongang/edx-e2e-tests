@@ -1,6 +1,7 @@
 """
 Test help link on video upload page.
 """
+import unittest
 from unittest import skipIf
 
 from bok_choy.page_object import PageLoadError
@@ -37,7 +38,7 @@ class TestVideoUploadHelp(WebAppTest):
         try:
             self.video_upload_page.visit()
         except PageLoadError:
-            print('Check the video page')
+            raise unittest.SkipTest('Couldnt find the video page')
 
     @skipIf(
         STUDIO_BASE_URL.startswith('edx.devstack'),
