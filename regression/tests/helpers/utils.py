@@ -263,10 +263,17 @@ def activate_account_updated(test, email_api):
     activation_url = email_api.get_url_from_email(
         'activate'
     )
+    #if link in email isnt valid, this method will make it valid
+    if activation_url.count('https') > 1:
+        updated_link = activation_url.split('"')
+        valid_link = updated_link[0]
+    else:
+        valid_link = activation_url
+
     # Open a new window and go to activation link in this window
     test.browser.execute_script("window.open('');")
     test.browser.switch_to.window(test.browser.window_handles[-1])
-    account_activate_page = ActivateAccountExtended(test.browser, activation_url)
+    account_activate_page = ActivateAccountExtended(test.browser, valid_link)
     account_activate_page.visit()
     # Verify that activation is complete
     test.assertTrue(account_activate_page.is_account_activation_complete)
@@ -274,3 +281,8 @@ def activate_account_updated(test, email_api):
     # Switch back to original window and refresh the page
     test.browser.switch_to.window(main_window)
     test.browser.refresh()
+
+
+
+
+

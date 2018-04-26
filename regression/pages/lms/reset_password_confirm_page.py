@@ -19,7 +19,12 @@ class ResetPasswordConfirmPage(PageObject):
 
     @property
     def url(self):
-        return self.link
+        if self.link.count('https') > 1:
+            updated_link = self.link.split('"')
+            valid_link = updated_link[0]
+        else:
+            valid_link = self.link
+        return valid_link
 
     def reset_password(self, password):
         new_password = self.q(css='#new_password1')
