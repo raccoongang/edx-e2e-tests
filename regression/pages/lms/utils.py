@@ -14,6 +14,6 @@ def get_course_key(course_info, module_store='split'):
         course_info['org'],
         course_info['number'],
         course_info['run'],
-        deprecated=(module_store == 'split') #'draft', 'split'
+        deprecated=(module_store == 'draft') #'draft', 'split'
     )
     return unicode(course_key)
