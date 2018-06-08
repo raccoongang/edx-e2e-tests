@@ -1,6 +1,8 @@
 """
 Course about page
 """
+from selenium.common.exceptions import NoSuchElementException
+
 from edxapp_acceptance.pages.lms.course_about import CourseAboutPage
 from regression.pages.lms import LOGIN_BASE_URL
 
@@ -12,7 +14,7 @@ class CourseAboutPageExtended(CourseAboutPage):
     """
 
     def is_browser_on_page(self):
-        return self.q(css='section.theme-course-info').present
+        return self.q(css='.about').present
 
     @property
     def url(self):
@@ -24,7 +26,12 @@ class CourseAboutPageExtended(CourseAboutPage):
     
     @property
     def enroll_button(self):
-        return self.browser.find_element_by_css_selector(css_selector='.theme-about_btn-holder a')
+        selector = None
+        try:
+            selector = self.browser.find_element_by_css_selector(css_selector='.theme-about_btn-holder a')
+        except NoSuchElementException:
+            selector = self.browser.find_element_by_css_selector(css_selector='.main-cta a')
+        return selector
 
     def view_course_button(self):
         return self.q(css='a[class^="theme-btn-2"]')

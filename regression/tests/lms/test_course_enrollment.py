@@ -30,22 +30,22 @@ class TestCourseEnrollment(WebAppTest):
 
         self.course_about_page.visit()
 
-        if self.course_about_page.enroll_button.text == u'Enroll':
+        if self.course_about_page.enroll_button.text == u'Enroll' or \
+            self.course_about_page.enroll_button.text == 'ENROLL IN DEMOX':
             self.course_about_page.enroll_button.click()
             self.dashboard_page.wait_for_page()
             self.dashboard_page.is_browser_on_page()
-        elif self.course_about_page.enroll_button.text == u'View Course':
+        elif self.course_about_page.enroll_button.text == u'View Course' or \
+                u'YOU ARE ENROLLED IN THIS COURSE VIEW COURSE':
             self.dashboard_page.visit()
-
-            self.dashboard_page.unenrollment('edX Demonstration Course')
+            self.dashboard_page.unenrollment(get_course_key(self.course_info))
             self.dashboard_page.wait_for_page()
-
             self.course_about_page.visit()
-            self.assertEqual(self.course_about_page.enroll_button.text, u'Enroll')
-            self.course_about_page.enroll_button.click()
-
-            self.dashboard_page.wait_for_page()
-            self.dashboard_page.is_browser_on_page()
+            if self.course_about_page.enroll_button.text == u'Enroll' or \
+                self.course_about_page.enroll_button.text == 'ENROLL IN DEMOX':
+                self.course_about_page.enroll_button.click()
+                self.dashboard_page.wait_for_page()
+                self.dashboard_page.is_browser_on_page()
         else:
             print(self.course_about_page.enroll_button.text)
             raise AssertionError
