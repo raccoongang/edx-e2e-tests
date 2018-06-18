@@ -7,9 +7,9 @@ class ActivateAccountExtended(ActivateAccount):
         """
         Activate account url has to be set by the test
         """
-        super(ActivateAccount, self).__init__(browser)
+        super(ActivateAccountExtended, self).__init__(browser, activation_url)
         self.activate_account_url = activation_url
-        self.activation_msg_css = ".valid"
+
 
     @property
     def url(self):
@@ -29,7 +29,7 @@ class ActivateAccountExtended(ActivateAccount):
             bool: True if activation complete message is visible:
         """
         return self.q(css=self.activation_msg_css).filter(
-            lambda elem: 'Account Activated' in elem.text
+            lambda elem: 'activated' in elem.text
         ).visible
 
     def click_dashboard_from_drop_down_menu(self):

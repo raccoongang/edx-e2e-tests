@@ -66,7 +66,7 @@ PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
     'edX': 'demo@raccoongang.com',
-    'RG': 'info@raccoongang.com',
+    'RG': 'devops@raccoongang.com',
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'HarvardXPLUS': 'hxplus-support@edx.org',
     'MITxPRO': 'mitxpro@mit.edu',

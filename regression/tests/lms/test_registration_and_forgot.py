@@ -47,7 +47,7 @@ class TestNewUserRegistration(WebAppTest):
         self.user_registration.register_user(
             email=self.generate_email,
             password='123456',
-            country='USA',
+            country='US',
             username=self.creds[0],
             full_name='name',
             terms_of_service=True,
