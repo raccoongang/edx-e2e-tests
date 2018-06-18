@@ -15,7 +15,7 @@ OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET')
 BASIC_AUTH = BASIC_AUTH_USERNAME + ":" + BASIC_AUTH_PASSWORD + "@"
 
 # Select the Org for which to run the tests
-DEFAULT_ORG = 'HarvardMedGlobalAcademy'
+DEFAULT_ORG = 'RG'
 
 ORG = os.environ.get('ORG', DEFAULT_ORG)
 
