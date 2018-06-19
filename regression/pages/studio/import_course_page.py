@@ -8,12 +8,24 @@ from edxapp_acceptance.pages.common.utils import click_css
 
 from regression.pages.studio.course_page_studio import CoursePageExtended
 from regression.pages import UPLOAD_FILE_DIR
+from regression.tests.helpers.utils import get_url
 
 
 class ImportCoursePageExtended(ImportMixin, CoursePageExtended):
     """
     Extended course import page.
     """
+
+    url_path = 'import'
+
+    @property
+    def url(self):
+        """
+        Construct a URL to the page within the course.
+        """
+        return get_url(self.url_path, self.course_info)
+
+
     def upload_tarball(self, tarball_filename):
         """
         Upload a tarball to be imported.

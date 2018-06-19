@@ -26,8 +26,7 @@ class StudioCourseOutlineTest(WebAppTest):
     def test_course_outline(self):
         """
         Verifies that user can click Edit Start Date button and is navigated
-        to Schedule and Details page, and that the Help link for
-        'Learn more about content visibility settings' is working.
+        to Schedule and Details page
         """
         studio_login_page = StudioLogin(self.browser)
         studio_home_page = DashboardPageExtended(self.browser)
@@ -51,9 +50,13 @@ class StudioCourseOutlineTest(WebAppTest):
         studio_home_page.select_course(get_course_display_name())
         studio_course_outline.wait_for_page()
 
+        '''
+        #Verifies that the Help link for
+        'Learn more about content visibility settings' is working.
+        
         # First verify the Help link
         expected_href = EDXAPP_CMS_DOC_LINK_BASE_URL + \
-            '/en/open-release-ficus.master/developing_course/controlling_content_visibility.html'
+            'en/open-release-ginkgo.master/developing_course/controlling_content_visibility.html'
         # Assert that help link is correct.
         assert_side_bar_help_link(
             test=self,
@@ -70,6 +73,7 @@ class StudioCourseOutlineTest(WebAppTest):
             # and it's the right one (i.e. Studio or LMS)
             self.browser.close()  # close only the current window
             self.browser.switch_to_window(self.browser.window_handles[0])
+        '''
 
         # Now do the verification for the edit start date button.
         studio_course_outline.click_edit_start_date_button()
