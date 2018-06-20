@@ -22,7 +22,7 @@ class TestAssetCrud(WebAppTest):
             course_info['run']
         )
         asset_page.visit()
-        file_names = ['README.rst', 'test_pdf.pdf']
+        file_names = [u'README.rst', u'test_pdf.pdf']
 
         # The course should start with no assets uploaded.
         # There is a bit of Uncertainty Principle here, as we are
@@ -36,7 +36,9 @@ class TestAssetCrud(WebAppTest):
         # Upload the files
         asset_page.open_upload_file_prompt()
         upload_new_file(asset_page, file_names)
+        # Change files name places and
         # Assert that the files have been uploaded.
+        file_names[0], file_names[1] = file_names[1], file_names[0]
         self.assertEqual(file_names, asset_page.asset_files_names)
 
         # Verify that a file can be locked
