@@ -15,7 +15,7 @@ class TestCourseImport(WebAppTest):
     """
     Tests the Course import page
     """
-    tarball_name = 'course.tar.gz'
+    tarball_name = 'edx_demo_course.tar.gz'
     import_page_class = ImportCoursePageExtended
     landing_page_class = CourseOutlinePageExtended
 
@@ -50,7 +50,13 @@ class TestCourseImport(WebAppTest):
         self.course_outline_page.visit()
         # There's a section named
         # 'Section :754c5e889ac3489e9947ba62b916bdab' in the tarball.
-        self.assertIn(
-            "Section :754c5e889ac3489e9947ba62b916bdab",
+        sections = [u'Introduction',
+                    u'Example Week 1: Getting Started',
+                    u'Example Week 2: Get Interactive',
+                    u'Example Week 3: Be Social',
+                    u'About Exams and Certificates',
+                    u'holding section']
+        self.assertEqual(
+            sections,
             self.course_outline_page.get_section_names()
         )
