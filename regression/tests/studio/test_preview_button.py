@@ -2,13 +2,15 @@
 End to end tests for preview button
 """
 import os
+from unittest import skipIf
 
 from bok_choy.web_app_test import WebAppTest
 
+from edxapp_acceptance.pages.studio.container import ContainerPage
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
-from edxapp_acceptance.pages.studio.container import ContainerPage
+from regression.pages.studio.preview_page import PreviewPage
 
 
 class TestPreviewButton(WebAppTest):
@@ -18,7 +20,7 @@ class TestPreviewButton(WebAppTest):
 
     DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
     DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
-    COURSE_DISPLAY_NAME = os.environ.get('COURSE_DISPLAY_NAME', 'demo course')
+    COURSE_NUMBER = os.environ.get('COURSE_NUMBER', 'DemoX')
 
     def setUp(self):
         """
@@ -30,6 +32,7 @@ class TestPreviewButton(WebAppTest):
         self.course_page = CourseOutlinePageExtended(
             self.browser, 'org', 'number', 'run')
         self.container_page = ContainerPage(self.browser, locator='')
+        self.preview_page = PreviewPage(self.browser)
 
     def test_preview_button(self):
         """
@@ -40,12 +43,25 @@ class TestPreviewButton(WebAppTest):
         self.studio_home_page.wait_for_page()
         self.studio_home_page.is_browser_on_page()
 
-        self.studio_home_page.select_course(self.COURSE_DISPLAY_NAME)
+        self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
 
         self.course_page.expand_subsections('.subsection-header')
+        '''
+        #count units
+        if self.course_page.unit_count == 0:
+            raise Exception('The number of units is {}'.format(self.course_page.unit_count))
+        else:
+            self.course_page.open_unit()
+            self.container_page.is_browser_on_page()
+            self.container_page.preview()
 
-        self.course_page.open_unit('Introduction: Video and Sequences')
+            self.preview_page.is_browser_on_page()
+            assert 'preview' in self.browser.current_url
+        '''
+
+        self.course_page.open_unit()
         self.container_page.is_browser_on_page()
         self.container_page.preview()
 
+        self.preview_page.is_browser_on_page()
         assert 'preview' in self.browser.current_url

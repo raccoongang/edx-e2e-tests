@@ -80,3 +80,15 @@ class DashboardPageExtended(DashboardPage):
         self.q(
             css='a[href="' + LMS_REDIRECT_URL + '/edx-privacy-policy"]'
         ).click()
+
+    def select_course_by_number(self, course_number):
+        """
+        Selects the course by number we want to perform tests on
+        """
+        course_numbers = self.q(css='.course-num .value')
+        for vals in course_numbers:
+            if course_number in vals.text:
+                vals.click()
+                return
+        raise BrokenPromise('Course title not found')
+

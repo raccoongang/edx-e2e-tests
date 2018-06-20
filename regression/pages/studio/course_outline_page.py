@@ -144,7 +144,7 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         return self.q(css=selector).click()
 
-    def open_unit(self, unit_name):
+    def open_particular_unit(self, unit_name):
         """
         Open particular unit
         """
@@ -154,3 +154,16 @@ class CourseOutlinePageExtended(CourseOutlinePage):
                 vals.click()
                 return
         raise Exception
+
+    def open_unit(self):
+        """
+        Open first unit
+        """
+        unit = self.q(css='.unit-title.item-title a')
+        unit.click()
+
+    def unit_count(self):
+        """
+        Unit count
+        """
+        return len(self.q(css='.unit-title.item-title a'))
