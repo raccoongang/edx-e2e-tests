@@ -138,11 +138,11 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         return self.q(css='.section-title').text
 
-    def expand_subsections(self, selector):
+    def expand_subsections(self):
         """
         Expands subsections
         """
-        return self.q(css=selector).click()
+        self.q(css='.subsection-header').click()
 
     def open_particular_unit(self, unit_name):
         """

@@ -45,19 +45,7 @@ class TestPreviewButton(WebAppTest):
 
         self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
 
-        self.course_page.expand_subsections('.subsection-header')
-        '''
-        #count units
-        if self.course_page.unit_count == 0:
-            raise Exception('The number of units is {}'.format(self.course_page.unit_count))
-        else:
-            self.course_page.open_unit()
-            self.container_page.is_browser_on_page()
-            self.container_page.preview()
-
-            self.preview_page.is_browser_on_page()
-            assert 'preview' in self.browser.current_url
-        '''
+        self.course_page.expand_subsections()
 
         self.course_page.open_unit()
         self.container_page.is_browser_on_page()
