@@ -95,6 +95,7 @@ class StudioLmsTest(WebAppTest):
         """
         self.studio_home_page.visit()
         self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
+        self.studio_course_outline.wait_for_page()
         self.studio_course_outline.view_live()
         self.courseware_page.wait_for_page()
 
