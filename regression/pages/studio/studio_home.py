@@ -49,22 +49,6 @@ class DashboardPageExtended(DashboardPage):
         )
         self.q(css='.action-signout').click()
 
-    def click_view_live_button(self):
-        """
-        Clicks view live button
-        """
-        disable_animations(self)
-        course_info = get_course_info()
-        course_key = get_course_key({
-            'course_org': course_info['org'],
-            'course_num': course_info['number'],
-            'course_run': course_info['run']
-        })
-
-        self.q(css='[data-course-key="{}"]'.format(course_key)).click()
-        self.q(css='.view-button').click()
-        self.browser.switch_to_window(self.browser.window_handles[-1])
-
     def click_terms_of_service(self):
         """
         Clicks Terms of Service link

@@ -64,6 +64,7 @@ class StudioLmsTest(WebAppTest):
 
     DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
     DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
+    COURSE_NUMBER = os.environ.get('COURSE_NUMBER', 'DemoX')
 
     def setUp(self):
         """
@@ -85,15 +86,17 @@ class StudioLmsTest(WebAppTest):
             self.browser, self.course_info['org'], self.course_info['number'],
             self.course_info['run'])
 
+        self.courseware_page = CoursewarePageExtended(
+            self.browser, get_course_info())
+
     def test_view_live_from_dashboard(self):
         """
         Verifies that user can view live course from studio dashboard
         """
         self.studio_home_page.visit()
-        self.studio_home_page.click_view_live_button()
-        courseware_page = CoursewarePageExtended(
-            self.browser, get_course_info())
-        courseware_page.wait_for_page()
+        self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
+        self.studio_course_outline.view_live()
+        self.courseware_page.wait_for_page()
 
 
 class StudioFooterTest(WebAppTest):
