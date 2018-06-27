@@ -7,6 +7,7 @@ from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
 
 from edxapp_acceptance.pages.studio.container import ContainerPage
+
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
@@ -45,7 +46,9 @@ class TestPreviewButton(WebAppTest):
 
         self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
 
+        self.course_page.wait_for_page()
         self.course_page.expand_subsections()
+        self.course_page.wait_for_page()
 
         self.course_page.open_unit()
         self.container_page.is_browser_on_page()

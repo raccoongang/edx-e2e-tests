@@ -159,8 +159,8 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         Open first unit
         """
-        unit = self.q(css='.unit-title.item-title a')
-        unit.click()
+        units = self.q(css='.unit-title.item-title a')
+        units[0].click()
 
     def unit_count(self):
         """
