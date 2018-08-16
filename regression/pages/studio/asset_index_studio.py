@@ -51,6 +51,13 @@ class AssetIndexPageExtended(AssetIndexPage):
         return self.q(css='.assets-table tbody tr .filename').text
 
     @property
+    def sort_by_date(self):
+        """
+        Returns locator of sort button  
+        """
+        return self.q(css='#js-asset-date-col')
+
+    @property
     def asset_files_count(self):
         """
         Returns the count of files uploaded.

@@ -9,8 +9,13 @@ from regression.tests.helpers.utils import get_course_info
 
 
 class TestAssetCrud(WebAppTest):
-    """ Test create/read/update/delete of course assets"""
+
     def test_asset_crud(self):
+
+        """
+        Test create/read/update/delete of course assets
+
+        """
         studio_login = StudioLoginApi()
         studio_login.authenticate(self.browser)
         course_info = get_course_info()
@@ -37,8 +42,10 @@ class TestAssetCrud(WebAppTest):
         asset_page.open_upload_file_prompt()
         upload_new_file(asset_page, file_names)
         # Change files name places and
-        # Assert that the files have been uploaded.
+        # Sort files by 'Date Added' and Assert that files have been uploaded.
         file_names[0], file_names[1] = file_names[1], file_names[0]
+        asset_page.sort_by_date.click()
+        asset_page.sort_by_date.click()
         self.assertIn(file_names[0], asset_page.asset_files_names)
         self.assertIn(file_names[1], asset_page.asset_files_names)
 
