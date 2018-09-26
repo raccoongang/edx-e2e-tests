@@ -61,3 +61,14 @@ class DashboardPageExtended(DashboardPage):
         unenroll_splash = self.q(css='div input[name="submit"]')
         sleep(1)
         unenroll_splash.click()
+
+    def select_course_by_id(self, course_id):
+        """
+        Selects the course we want to perform tests on using course id
+        """
+        selected_course = self.q(css='.course-title a[data-course-key="{}"]'.format(
+            course_id))
+        if selected_course:
+            selected_course.click()
+        else:
+            raise BrokenPromise('Course title not found')
