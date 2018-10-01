@@ -118,3 +118,10 @@ class CoursewarePageExtended(CoursewarePage):
         # the page's name of selected(active) tab. It is
         # not required, so removing it.
         return [page.replace('\n, current location', "") for page in tab_pages]
+
+    def get_unit_name(self):
+        """
+        Gets unit name
+        :return: Unit name
+        """
+        return self.q(css='h2.hd.hd-2.unit-title').text

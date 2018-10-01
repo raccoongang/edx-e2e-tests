@@ -6,6 +6,7 @@ import os
 from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
+from edxapp_acceptance.pages.studio.container import ContainerPage
 
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
@@ -86,18 +87,28 @@ class StudioLmsTest(WebAppTest):
             self.browser, self.course_info['org'], self.course_info['number'],
             self.course_info['run'])
 
+        self.container_page = ContainerPage(self.browser, locator='')
+
         self.courseware_page = CoursewarePageExtended(
             self.browser, get_course_info())
 
     def test_view_live_from_dashboard(self):
         """
         Verifies that user can view live course from studio dashboard
+        and view unit in studio
         """
         self.studio_home_page.visit()
         self.studio_home_page.select_course_by_number(self.COURSE_NUMBER)
         self.studio_course_outline.wait_for_page()
         self.studio_course_outline.view_live()
         self.courseware_page.wait_for_page()
+
+        unit_name_lms = self.courseware_page.get_unit_name()
+        self.courseware_page.view_unit_in_studio()
+
+        self.container_page.wait_for_component_menu()
+        unit_name_studio = self.container_page.name
+        self.assertEqual(unit_name_studio, ''.join(unit_name_lms))
 
 
 class StudioFooterTest(WebAppTest):
