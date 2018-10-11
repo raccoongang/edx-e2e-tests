@@ -56,3 +56,12 @@ class AnalyticsTest(WebAppTest):
             self.instructor_dashboard.get_insights_title_text(),
             'INSIGHTS'
         )
+
+    def test_instructor_dashboard(self):
+        """
+        Verifies that instructor can send bulk emails
+        """
+        bulk_email_page = self.instructor_dashboard.select_bulk_email()
+        bulk_email_page.is_browser_on_page()
+        bulk_email_page.send_message(['myself'])
+        bulk_email_page.verify_message_queued_successfully()
