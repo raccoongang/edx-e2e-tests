@@ -37,3 +37,12 @@ class StudioUserLogin(WebAppTest):
         self.studio_home_page.wait_for_page()
         self.studio_home_page.click_logout_button()
         self.studio_logout_page.wait_for_page()
+
+    def test_remember_me(self):
+        """
+        Verifies that user can use Remember Me functionality
+        """
+        pass
+
+    # TODO: explore edx pageobject, what if offers (and if testable)
+    # TODO: explore the web page
