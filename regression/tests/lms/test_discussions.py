@@ -1,47 +1,106 @@
-import os
+import time
+import random
+import unittest
+from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
+from bok_choy.page_object import WrongPageError
 from bok_choy.page_object import PageLoadError
 
-from regression.pages.lms import LMS_STAGE_BASE_URL, LMS_PROTOCOL
-from regression.tests.helpers.api_clients import LmsLoginApi
 from edxapp_acceptance.pages.lms.discussion import DiscussionThreadPage
+
+from regression.pages.lms.discussions_page import DiscussionsHomePageExtended
+from regression.pages.lms.discussions_page import DiscussionThreadPageExtended
+from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.tests.helpers.utils import get_course_info
+from regression.pages.lms.utils import get_course_key
 
 
 class DiscussionTest(WebAppTest):
     """
     Test to check that discussion page is available
     """
-    def test_course_discussion_page(self):
-        LMS_BASE_URL = os.environ.get('LMS_BASE_URL', LMS_STAGE_BASE_URL)
-        COURSE_ORG = os.environ.get('COURSE_ORG', 'edX')
-        COURSE_NUMBER = os.environ.get('COURSE_NUMBER', 'DemoX')
-        COURSE_RUN = os.environ.get('COURSE_RUN', 'Demo_Course')
+
+    def setUp(self):
+        super(DiscussionTest, self).setUp()
 
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)
-        discussion_page = DiscussionThreadPage(self.browser, '.page-content')
+        self.discussion_thread_page = DiscussionThreadPage(self.browser, '.page-content')
 
-        discussion_page.url = '{}://{}/courses/course-v1:{}+{}+{}/discussion/forum/'.format(
-            LMS_PROTOCOL,
-            LMS_BASE_URL,
-            COURSE_ORG,
-            COURSE_NUMBER,
-            COURSE_RUN
-        )
+        self.discussion_home_page_ext = DiscussionsHomePageExtended(self.browser, get_course_key(get_course_info()))
+
+        self.post_title = 'post_to_test{}'.format(uuid4().hex)
+        self.description = 'description{}'.format(uuid4().hex)
+        self.response = 'test response{}'.format(uuid4().hex)
+        self.comment = 'comment{}'.format(uuid4().hex)
 
         try:
-            discussion_page.visit()
+            self.discussion_home_page_ext.visit()
         except PageLoadError:
-            discussion_page.url = '{}://{}/courses/{}/{}/{}/discussion/forum/'.format(
-                LMS_PROTOCOL,
-                LMS_BASE_URL,
-                COURSE_ORG,
-                COURSE_NUMBER,
-                COURSE_RUN
-            )
-            discussion_page.visit()
+            raise unittest.SkipTest('The Discussions page isnt available')
+        self.discussion_home_page_ext.is_browser_on_page()
 
-        discussion_page.wait_for_page()
-        while discussion_page.is_browser_on_page():
-            break
+    def test_discussion_page(self):
+        """
+        Tests discussions page:
+        1. Post can be added/deleted
+        2. Response to the post can be added/deleted
+        3. Comment to the response can be added/deleted
+        4. Test following
+        5. Test Search
+        """
+        #add new post
+        self.discussion_home_page_ext.click_new_post_button()
+        self.discussion_home_page_ext.fill_post_form(self.post_title, self.description)
+
+        #search_for_created post
+        self.discussion_home_page_ext.perform_search(self.post_title)
+        time.sleep(5)
+        link = self.discussion_home_page_ext.get_the_thread_link()
+
+        #visit thread page
+        self.discussion_thread_page_ext = DiscussionThreadPageExtended(
+            self.browser, get_course_key(get_course_info()), link=link)
+        self.discussion_thread_page_ext.visit()
+
+        #ASSERT that user can open created discussion
+        post_title = self.discussion_thread_page_ext.get_post_title()
+        self.assertEqual(''.join(post_title.text), self.post_title)
+
+        #check that post is followed
+        last_follow_post = self.discussion_thread_page_ext.last_follow_post()
+        self.assertEqual(last_follow_post, self.post_title)
+
+        #add a response
+        self.discussion_thread_page_ext.add_response(self.response)
+
+        #assert added reponse
+        response_text = self.discussion_thread_page_ext.get_response_text()
+        self.assertEqual(self.response, ''.join(response_text))
+
+        #add comment
+        self.discussion_thread_page_ext.add_comment(self.comment)
+        time.sleep(3)
+
+        #assert_comment_is_visible
+        self.assertTrue(self.discussion_thread_page_ext.is_comment_visible())
+
+        #delete comment
+        self.discussion_thread_page_ext.delete_comment()
+
+        #is_comment deleted
+        self.discussion_thread_page_ext.is_comment_deleted()
+
+        #delete response
+        self.discussion_thread_page_ext.delete_response()
+        self.discussion_thread_page_ext.is_response_deleted()
+
+        #delete post
+        try:
+            self.discussion_thread_page_ext.delete_post()
+            time.sleep(3)
+        except WrongPageError:
+            pass
+        finally:
+            self.discussion_home_page_ext.is_post_deleted()
