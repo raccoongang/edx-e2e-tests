@@ -1,5 +1,4 @@
 import time
-import random
 import unittest
 from uuid import uuid4
 
@@ -44,7 +43,7 @@ class DiscussionTest(WebAppTest):
     def test_discussion_page(self):
         """
         Tests discussions page:
-        1. Post can be added/deleted
+        1. Post can be added/edited/deleted
         2. Response to the post can be added/deleted
         3. Comment to the response can be added/deleted
         4. Test following
@@ -56,7 +55,7 @@ class DiscussionTest(WebAppTest):
 
         #search_for_created post
         self.discussion_home_page_ext.perform_search(self.post_title)
-        time.sleep(5)
+        time.sleep(3)
         link = self.discussion_home_page_ext.get_the_thread_link()
 
         #visit thread page
@@ -64,13 +63,24 @@ class DiscussionTest(WebAppTest):
             self.browser, get_course_key(get_course_info()), link=link)
         self.discussion_thread_page_ext.visit()
 
-        #ASSERT that user can open created discussion
+        #assert that user on the correct page
         post_title = self.discussion_thread_page_ext.get_post_title()
         self.assertEqual(''.join(post_title.text), self.post_title)
 
         #check that post is followed
         last_follow_post = self.discussion_thread_page_ext.last_follow_post()
         self.assertEqual(last_follow_post, self.post_title)
+
+        #check that post can be unfollowed
+        followed_posts = self.discussion_thread_page_ext.unfollow_post()
+        self.assertNotIn(self.post_title, followed_posts)
+
+        #edit post
+        text_post = 'post edited {}'.format(str(uuid4().hex))
+        self.discussion_thread_page_ext.edit_post(text=text_post)
+        time.sleep(3)
+        post_title_edited = self.discussion_thread_page_ext.get_post_title()
+        self.assertEqual(''.join(post_title_edited.text), text_post)
 
         #add a response
         self.discussion_thread_page_ext.add_response(self.response)
@@ -79,12 +89,26 @@ class DiscussionTest(WebAppTest):
         response_text = self.discussion_thread_page_ext.get_response_text()
         self.assertEqual(self.response, ''.join(response_text))
 
+        #edit response
+        text_response = 'response edited {}'.format(str(uuid4().hex))
+        self.discussion_thread_page_ext.edit_response(text=text_response)
+        time.sleep(3)
+        response_text_edit = self.discussion_thread_page_ext.get_response_text()
+        self.assertEqual(''.join(response_text_edit), text_response)
+
         #add comment
         self.discussion_thread_page_ext.add_comment(self.comment)
         time.sleep(3)
 
         #assert_comment_is_visible
         self.assertTrue(self.discussion_thread_page_ext.is_comment_visible())
+
+        #edit comment
+        text_comment = 'comment edited {}'.format(str(uuid4().hex))
+        self.discussion_thread_page_ext.edit_comment(text=text_comment)
+        time.sleep(3)
+        comment_text_edit = self.discussion_thread_page_ext.get_comment_text()
+        self.assertEqual(''.join(comment_text_edit), text_comment)
 
         #delete comment
         self.discussion_thread_page_ext.delete_comment()

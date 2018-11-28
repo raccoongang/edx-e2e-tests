@@ -44,9 +44,11 @@ class DiscussionsHomePageExtended(DiscussionTabHomePage):
         self.q(css=".all-topics").click()
 
     def get_the_thread_id(self):
-        thread_id_list = self.q(css='.forum-nav-thread-list li').attrs('data_id')
-        last_thread = thread_id_list[0]
-        return last_thread
+        try:
+            thread_id_list = self.q(css='.forum-nav-thread-list li').attrs('data_id')
+            return thread_id_list[0]
+        except IndexError:
+            return self.q(css='.forum-nav-thread-list li').attrs('data_id')[0]
 
     def get_the_thread_link(self):
         thread_id_list = self.q(css='.forum-nav-thread a').attrs('href')
@@ -104,8 +106,19 @@ class DiscussionThreadPageExtended(DiscussionsHomePageExtended):
         self.q(css='.forum-nav-browse-menu-item.forum-nav-browse-menu-following').click()
         self.wait_for_ajax()
         last_following_post = self.q(css='.forum-nav-thread-title')[0]
-        time.sleep(5)
+        time.sleep(3)
         return last_following_post.text
+
+    def unfollow_post(self):
+        follow_star = self.q(css='.btn-link.action-button.action-follow')
+        if follow_star.attrs('aria-checked') == [u'true']:
+            follow_star.click()
+            time.sleep(1)
+            self.browser.refresh()
+            self.q(css='.forum-nav-browse-menu-item.forum-nav-browse-menu-following').click()
+            self.wait_for_ajax()
+            titles = self.q(css='.forum-nav-thread-title')
+            return titles.text
 
     def title_header(self):
         self.q(css='.post-title')
@@ -120,6 +133,25 @@ class DiscussionThreadPageExtended(DiscussionsHomePageExtended):
         self.q(css='.wmd-input[id="wmd-input-reply-body-{}"]'.format(self.get_thread_id())).fill(response)
         submit = self.q(css='.btn.discussion-submit-post.control-button').click()
         self.wait_for_ajax()
+
+    def edit_post(self, text):
+        self.q(css='.btn-link.action-button.action-more').click()
+        self.q(css='.btn-link.action-list-item.action-edit').click()
+        self.q(css='.edit-post-title.field-input').fill(text)
+        self.q(css='#wmd-input-edit-post-body-undefined').fill(text)
+        self.q(css='#edit-post-submit').click()
+
+    def edit_response(self, text):
+        self.q(css='.response-header-actions .btn-link.action-button.action-more').click()
+        self.q(css='.response-header-actions .btn-link.action-list-item.action-edit').click()
+        self.q(css='.edit-post-body .wmd-input').fill(text)
+        self.q(css='#edit-response-submit').click()
+
+    def edit_comment(self, text):
+        self.q(css='.discussion-comment .btn-link.action-button.action-more').click()
+        self.q(css='.comment-actions-list .btn-link.action-list-item.action-edit').click()
+        self.q(css='.edit-comment-body .wmd-input').fill(text)
+        self.q(css='#edit-comment-submit').click()
 
     def get_response_text(self):
         return self.q(css='.response-body p').text
@@ -136,6 +168,9 @@ class DiscussionThreadPageExtended(DiscussionsHomePageExtended):
 
     def is_comment_visible(self):
         return self.q(css='.discussion-comment .response-body p').visible
+
+    def get_comment_text(self):
+        return self.q(css='.comments .response-body').text
 
     def delete_comment(self):
         for i in range(2):
