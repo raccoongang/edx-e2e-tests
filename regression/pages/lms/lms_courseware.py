@@ -125,3 +125,9 @@ class CoursewarePageExtended(CoursewarePage):
         :return: Unit name
         """
         return self.q(css='h2.hd.hd-2.unit-title').text
+
+    def add_bookmark(self):
+        bookmark_button = self.q(css='.btn.btn-link.bookmark-button')
+        bookmark_button.click()
+        self.wait_for_ajax()
+        return self.q(css='.btn.btn-link.bookmark-button span').text
