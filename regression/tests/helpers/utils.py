@@ -283,6 +283,35 @@ def activate_account_updated(test, email_api):
     test.browser.refresh()
 
 
+def reset_email_activate_updated(test, email_api):
+    """
+    Fetch activation url from email, open the activation link in a new
+    window.
 
+    Arguments:
+        test: The browser on which activation is performed.
+        email_api(GuerrillaMailApi): Api to access GuerrillaMail.
+    """
+    # Get activation link from email
+    activation_url = email_api.get_url_from_email(
+        'email_confirm'
+    )
+    #if link in email isnt valid, this method will make it valid
+    if activation_url.count('https') > 1:
+        updated_link = activation_url.split('"')
+        valid_link = updated_link[0]
+    else:
+        valid_link = activation_url
 
+    # Open a new window and go to activation link in this window
+    test.browser.execute_script("window.open('');")
+    test.browser.switch_to.window(test.browser.window_handles[-1])
+    account_activate_page = ActivateAccountExtended(test.browser, valid_link)
+    # import pdb; pdb.set_trace()
+    account_activate_page.browser.get(valid_link)
+    # Verify that activation is complete
+    test.assertTrue(account_activate_page.q(css='h1.valid').filter(
+        lambda elem: 'E-mail change successful!' in elem.text
+    ).visible)
 
+    test.browser.close()

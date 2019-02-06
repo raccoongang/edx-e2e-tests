@@ -10,7 +10,6 @@ class ActivateAccountExtended(ActivateAccount):
         super(ActivateAccountExtended, self).__init__(browser, activation_url)
         self.activate_account_url = activation_url
 
-
     @property
     def url(self):
         """
