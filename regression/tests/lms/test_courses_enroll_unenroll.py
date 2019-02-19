@@ -52,15 +52,15 @@ class EnrollUnenroll(WebAppTest):
         self.courses_page.is_browser_on_page()
         self.courses_page.wait_for_page()
         self.courses_page.search_course(COURSE_DISPLAY_NAME)
-        sleep(1)
+        sleep(20)
         query_text = self.courses_page.q(css='span.query').text[0][1:-1]  # text looks like ["u'here is text'"]
         self.assertEquals(query_text, COURSE_DISPLAY_NAME)
         self.courses_page.wait_for_page()
 
         # Step 3 - Learn More
-        self.assertEquals(query_text, self.courses_page.browser.find_element_by_class_name('course-title').text)
+        self.assertEquals(query_text.upper(), self.courses_page.browser.find_element_by_class_name('course-title').text)
         self.courses_page.q(css='.courses-listing-item').first.click()
-        sleep(1)
+        sleep(20)
         course_id = self.browser.current_url.split('/')[-2]
         course_about_page = CourseAboutPageExtended(self.browser, course_id)
 
@@ -80,7 +80,7 @@ class EnrollUnenroll(WebAppTest):
         self.courses_page.wait_for_page()
         self.courses_page.is_browser_on_page()
         self.courses_page.search_course(COURSE_DISPLAY_NAME)
-        sleep(1)
+        sleep(20)
         self.assertEquals(self.courses_page.q(css='span.query').text[0][1:-1], COURSE_DISPLAY_NAME)
         self.courses_page.wait_for_page()
 

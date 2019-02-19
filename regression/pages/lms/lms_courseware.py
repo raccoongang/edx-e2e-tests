@@ -130,4 +130,4 @@ class CoursewarePageExtended(CoursewarePage):
         bookmark_button = self.q(css='.btn.btn-link.bookmark-button')
         bookmark_button.click()
         self.wait_for_ajax()
-        return self.q(css='.btn.btn-link.bookmark-button span').text
+        return self.q(css='.btn.btn-link.bookmark-button span.bookmark-text').text

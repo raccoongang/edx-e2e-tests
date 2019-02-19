@@ -62,7 +62,7 @@ class StaffCourseInstructorResume(WebAppTest):
         course_about_page.visit()
 
         # enroll
-        sleep(2)
+        sleep(15)
         course_about_page.register()
         self.dashboard_ext.visit()
         self.dashboard_ext.wait_for_page()
@@ -75,8 +75,8 @@ class StaffCourseInstructorResume(WebAppTest):
         nav_tab_page.browser.refresh()
 
         # switch to learner preview mode
-        nav_tab_page.switch_preview_mode_to('learner')
-
+        nav_tab_page.switch_preview_mode_to('student')
+        
         # make sure "instructor" tab disappeared
         if nav_tab_page.has_tab('Instructor') == False:
             pass
@@ -86,7 +86,7 @@ class StaffCourseInstructorResume(WebAppTest):
         #resume the course
         nav_tab_page.q(css=".action-resume-course").click()
         nav_tab_page.wait_for_page()
-        sleep(1)
+        sleep(15)
         self.assertIn('courseware', nav_tab_page.browser.current_url.split('/'))
         self.dashboard_ext.visit()
         self.dashboard_ext.unenrollment(self.course_info)

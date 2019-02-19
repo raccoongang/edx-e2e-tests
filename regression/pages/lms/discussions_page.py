@@ -99,7 +99,7 @@ class DiscussionThreadPageExtended(DiscussionsHomePageExtended):
         return True
 
     def get_post_title(self):
-        title = self.q(css='h2.post-title')
+        title = self.q(css='h4.post-title')
         return title
 
     def last_follow_post(self):

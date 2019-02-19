@@ -21,9 +21,6 @@ class PagesTest(WebAppTest):
         # Log in as a student
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)
-        dashboard_page = DashboardPageExtended(self.browser)
-        dashboard_page.visit()
-
         course_info = get_course_info()
         course_key = get_course_key({
             'course_org': course_info['org'],

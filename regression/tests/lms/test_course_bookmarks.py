@@ -20,7 +20,6 @@ class TestCourseBookmarks(WebAppTest):
     def setUp(self):
         super(TestCourseBookmarks, self).setUp()
         self.course_info = get_course_key(get_course_info())
-        self.bookmarks_page = BookmarksPageExtended(self.browser, self.course_info)
         self.courseware_page = CoursewarePageExtended(self.browser, self.course_info)
 
         lms_login = LmsLoginApi()
@@ -31,19 +30,23 @@ class TestCourseBookmarks(WebAppTest):
         Check bookmarks add
         """
         # Open bookmarks page and check count of bookmarks
-        self.bookmarks_page.visit()
-        amount_of_bookmarks = self.bookmarks_page.count()
-
+        self.courseware_page.visit()
+        self.courseware_page.q(css='[class="courseware-bookmarks-button"]').click()
+        old_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
         # Open courseware and proceed to the first unit
         self.courseware_page.visit()
 
         # Add bookmark
         # Go to /bookmarks and assert that counter of bookmarks changes
         if ''.join(self.courseware_page.add_bookmark()) == u'Bookmarked':
-            self.bookmarks_page.visit()
-            self.assertEqual(self.bookmarks_page.count() - amount_of_bookmarks, 1)
+            self.courseware_page.visit()
+            self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
+            new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
+            self.assertEqual(new_count_bookmarks - old_count_bookmarks, 1)
 
         else:
             self.assertEqual(''.join(self.courseware_page.add_bookmark()), u'Bookmarked')
-            self.bookmarks_page.visit()
-            self.assertEqual(self.bookmarks_page.count(), amount_of_bookmarks)
+            self.courseware_page.visit()
+            self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
+            new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
+            self.assertEqual(old_count_bookmarks - new_count_bookmarks, 1)

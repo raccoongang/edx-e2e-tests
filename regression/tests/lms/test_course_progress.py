@@ -29,21 +29,21 @@ class CourseProgressTest(WebAppTest):
         self.progress_page.visit()
         self.assertIn(
             "Course Progress for Student",
-            self.progress_page.q(css='h2.hd.hd-2.progress-certificates-title')[0].text
+            self.progress_page.q(css='h3.hd.hd-3.progress-certificates-title')[0].text
         )
 
         self.assertEquals(
-            self.progress_page.q(css='#chapter_0')[0].text,
+            self.progress_page.q(css='#chapter_1')[0].text,
             "Example Week 1: Getting Started"
         )
 
         self.assertIn(
             "Lesson 1 - Getting Started",
-            self.progress_page.q(css='section[aria-labelledby="chapter_0"] h4.hd.hd-4 a')[0].text
+            self.progress_page.q(css='section[aria-labelledby="chapter_1"] h5.hd.hd-5 a')[0].text
         )
 
         self.assertEquals(
-            self.progress_page.q(css='section[aria-labelledby="chapter_0"] dt.hd.hd-6')[0].text,
+            self.progress_page.q(css='section[aria-labelledby="chapter_1"] dt.hd.hd-6')[0].text,
             "Practice Scores:"
         )
 
@@ -64,7 +64,7 @@ class CourseProgressTest(WebAppTest):
 
         self.assertIn(
             "Course Progress for Student 'staff' (staff@example.com)",
-            self.instructor_page.q(css='h2.hd.hd-2.progress-certificates-title')[0].text
+            self.instructor_page.q(css='h3.hd.hd-3.progress-certificates-title')[0].text
         )
 
         self.assertTrue(self.instructor_page.q(css='canvas.overlay').visible)
