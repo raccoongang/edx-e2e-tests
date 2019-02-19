@@ -1,8 +1,10 @@
 """
 Test course update
 """
+import os
 from uuid import uuid4
 
+from regression.pages.lms.login_lms import LmsLogin
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.course_info_page import CourseInfoPageExtended
 from regression.pages.studio.course_info_studio import (
@@ -15,18 +17,25 @@ from regression.tests.helpers.api_clients import (
 from regression.pages.lms.utils import get_course_key
 
 
+DEMO_COURSE_USER = os.environ.get('STUDENT_LOGIN_EMAIL')
+DEMO_COURSE_PASSWORD = os.environ.get('STUDENT_LOGIN_PASSWORD')
+
 class CourseUpdateTest(WebAppTest):
     """
     Test course update.
     """
     def setUp(self):
         super(CourseUpdateTest, self).setUp()
+        self.login_lms_page = LmsLogin(self.browser)
 
         login_api = StudioLoginApi()
         login_api.authenticate(self.browser)
 
-        lms_login = LmsLoginApi()
-        lms_login.authenticate(self.browser)
+        # lms_login = LmsLoginApi()
+        # lms_login.authenticate(self.browser)
+
+        self.login_lms_page.visit()
+        self.login_lms_page.login(DEMO_COURSE_USER, DEMO_COURSE_PASSWORD)
 
         self.course_info = get_course_info()
 
