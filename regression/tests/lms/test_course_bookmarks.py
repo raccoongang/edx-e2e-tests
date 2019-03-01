@@ -31,22 +31,21 @@ class TestCourseBookmarks(WebAppTest):
         """
         # Open bookmarks page and check count of bookmarks
         self.courseware_page.visit()
+        self.courseware_page.wait_for_page()
         self.courseware_page.q(css='[class="courseware-bookmarks-button"]').click()
         old_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
         # Open courseware and proceed to the first unit
         self.courseware_page.visit()
-
+        self.courseware_page.wait_for_page()
         # Add bookmark
-        # Go to /bookmarks and assert that counter of bookmarks changes
+        # Go to 'bookmarks' and assert that counter of bookmarks changes
         if ''.join(self.courseware_page.add_bookmark()) == u'Bookmarked':
-            self.courseware_page.visit()
             self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
             new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
             self.assertEqual(new_count_bookmarks - old_count_bookmarks, 1)
 
         else:
             self.assertEqual(''.join(self.courseware_page.add_bookmark()), u'Bookmarked')
-            self.courseware_page.visit()
             self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
             new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
             self.assertEqual(old_count_bookmarks - new_count_bookmarks, 1)
