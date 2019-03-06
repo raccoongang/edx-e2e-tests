@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/edx-e2e-tests
   firefox:
-    image: "selenium/standalone-firefox-debug"
+    image: "selenium/standalone-firefox-debug:2.53.1-beryllium"
     ports:
       - "4444:4444"
       - "35900:5900"
