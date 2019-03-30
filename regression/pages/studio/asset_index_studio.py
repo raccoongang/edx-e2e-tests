@@ -3,7 +3,7 @@ Asset index page
 """
 import urllib
 
-from edxapp_acceptance.pages.studio.asset_index import AssetIndexPage
+from edxapp_acceptance.pages.studio.asset_index import AssetIndexPageStudioFrontend
 from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
@@ -12,7 +12,7 @@ from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
 
 
-class AssetIndexPageExtended(AssetIndexPage):
+class AssetIndexPageExtended(AssetIndexPageStudioFrontend):
     """
     Extended AssetIndex page.
     """
@@ -27,10 +27,17 @@ class AssetIndexPageExtended(AssetIndexPage):
         url = "/".join(
             [
                 LOGIN_BASE_URL,
-                self.url_path, urllib.quote_plus(unicode(course_key))
+                self.URL_PATH, urllib.quote_plus(unicode(course_key))
             ]
         )
         return url if url[-1] is '/' else url + '/'
+
+    def is_browser_on_page(self):
+        return all([
+            self.q(css='body.view-uploads').present,
+            self.q(css='.page-header').present,
+            self.q(css='.assets-table').present
+        ])
 
     def open_upload_file_prompt(self):
         """
