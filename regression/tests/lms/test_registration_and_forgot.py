@@ -1,5 +1,6 @@
 import os
 
+from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
@@ -35,6 +36,9 @@ class TestNewUserRegistration(WebAppTest):
         self.dashboard_page = DashboardPageExtended(self.browser)
         self.forgot_password_page = ResetPasswordPage(self.browser)
 
+    @skip(
+        'need to fix guerrillamail'
+    )
     def test_1_register_user(self):
         """
         Test that new user can be registered using Guerilla Mail API
@@ -56,6 +60,9 @@ class TestNewUserRegistration(WebAppTest):
 
         Helper.activate_account_updated(self, self.GuerillaMail)
 
+    @skip(
+        'need to fix guerrillamail'
+    )
     def test_2_forgot_password(self):
         """
         Test that just registered user can reset own password

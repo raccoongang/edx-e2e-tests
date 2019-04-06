@@ -15,6 +15,7 @@ class CourseInfoPageExtended(CoursePage):
     where we add methods that are different or not used in CourseInfoPage
     """
     URL_MATCH_PATTERN = r'(http(s*)\:\/\/(.[^\/]+)/courses/(.[^\/]+)/(\w+))'
+    url_path = "info"
 
     @property
     def url(self):

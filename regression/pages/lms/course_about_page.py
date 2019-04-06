@@ -33,6 +33,11 @@ class CourseAboutPageExtended(CourseAboutPage):
             selector = self.browser.find_element_by_css_selector(css_selector='.main-cta a')
         return selector
 
+    def enroll_if_unenroll(self):
+        if self.enroll_button.text == u'Enroll' or \
+            self.enroll_button.text == 'ENROLL IN DEMOX':
+            self.enroll_button.click()
+
     def view_course_button(self):
         return self.q(css='a[class^="theme-btn-2"]')
 
