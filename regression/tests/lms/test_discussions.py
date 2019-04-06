@@ -55,7 +55,8 @@ class DiscussionTest(WebAppTest):
 
         #search_for_created post
         self.discussion_home_page_ext.perform_search(self.post_title)
-        time.sleep(20)
+        self.discussion_home_page_ext.perform_search(self.post_title)
+        self.discussion_home_page_ext.wait_for_element_visibility('.forum-nav-thread-link .forum-nav-thread-wrapper-1 span.forum-nav-thread-title', 'perform_search')
         link = self.discussion_home_page_ext.get_the_thread_link()
 
         #visit thread page
@@ -78,7 +79,7 @@ class DiscussionTest(WebAppTest):
         #edit post
         text_post = 'post edited {}'.format(str(uuid4().hex))
         self.discussion_thread_page_ext.edit_post(text=text_post)
-        time.sleep(20)
+        self.discussion_home_page_ext.wait_for_element_visibility('div.post-header-content'.format(str(uuid4().hex)), 'post edited')
         post_title_edited = self.discussion_thread_page_ext.get_post_title()
         self.assertEqual(''.join(post_title_edited.text), text_post)
 
@@ -92,13 +93,13 @@ class DiscussionTest(WebAppTest):
         #edit response
         text_response = 'response edited {}'.format(str(uuid4().hex))
         self.discussion_thread_page_ext.edit_response(text=text_response)
-        time.sleep(20)
+        self.discussion_home_page_ext.wait_for_element_visibility('div.post-extended-content.thread-responses-wrapper ol li div div p', 'response edited')
         response_text_edit = self.discussion_thread_page_ext.get_response_text()
         self.assertEqual(''.join(response_text_edit), text_response)
 
         #add comment
         self.discussion_thread_page_ext.add_comment(self.comment)
-        time.sleep(20)
+        self.discussion_home_page_ext.wait_for_element_visibility('#comment_unsaved', 'add comment')
 
         #assert_comment_is_visible
         self.assertTrue(self.discussion_thread_page_ext.is_comment_visible())
@@ -106,7 +107,7 @@ class DiscussionTest(WebAppTest):
         #edit comment
         text_comment = 'comment edited {}'.format(str(uuid4().hex))
         self.discussion_thread_page_ext.edit_comment(text=text_comment)
-        time.sleep(20)
+        self.discussion_home_page_ext.wait_for_element_visibility('div.discussion-comment', 'comment edited')
         comment_text_edit = self.discussion_thread_page_ext.get_comment_text()
         self.assertEqual(''.join(comment_text_edit), text_comment)
 
@@ -123,8 +124,9 @@ class DiscussionTest(WebAppTest):
         #delete post
         try:
             self.discussion_thread_page_ext.delete_post()
-            time.sleep(20)
+            self.discussion_thread_page_ext.wait_for_element_absence('div.discussion-article', 'post delete')
         except WrongPageError:
             pass
         finally:
-            self.discussion_home_page_ext.is_post_deleted()
+            if self.discussion_thread_page_ext.q(css='.response-body p').visible:
+                raise Exception('Response isnt deleted')
