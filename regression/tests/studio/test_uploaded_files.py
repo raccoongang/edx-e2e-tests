@@ -27,6 +27,7 @@ class TestAssetCrud(WebAppTest):
             course_info['run']
         )
         asset_page.visit()
+        asset_page.wait_for_page()
         file_names = [u'README.rst', u'test_pdf.pdf']
 
         # The course should start with no assets uploaded.
