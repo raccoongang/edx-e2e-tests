@@ -62,8 +62,7 @@ class StaffCourseInstructorResume(WebAppTest):
         course_about_page.visit()
 
         # enroll
-        sleep(15)
-        course_about_page.register()
+        course_about_page.enroll_if_unenroll()
         self.dashboard_ext.visit()
         self.dashboard_ext.wait_for_page()
 
@@ -86,7 +85,6 @@ class StaffCourseInstructorResume(WebAppTest):
         #resume the course
         nav_tab_page.q(css=".action-resume-course").click()
         nav_tab_page.wait_for_page()
-        sleep(15)
         self.assertIn('courseware', nav_tab_page.browser.current_url.split('/'))
         self.dashboard_ext.visit()
         self.dashboard_ext.unenrollment(self.course_info)

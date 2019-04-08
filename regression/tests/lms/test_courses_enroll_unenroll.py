@@ -49,18 +49,19 @@ class EnrollUnenroll(WebAppTest):
         # Step 2 - Go to courses page, search course
         self.courses_page.visit()
         self.courses_page.browser.refresh()
-        self.courses_page.is_browser_on_page()
         self.courses_page.wait_for_page()
+        self.courses_page._verify_page()
         self.courses_page.search_course(COURSE_DISPLAY_NAME)
-        sleep(20)
+        self.courses_page.wait_for_element_visibility('span.query', 'search')
         query_text = self.courses_page.q(css='span.query').text[0][1:-1]  # text looks like ["u'here is text'"]
         self.assertEquals(query_text, COURSE_DISPLAY_NAME)
         self.courses_page.wait_for_page()
 
         # Step 3 - Learn More
         self.assertEquals(query_text.upper(), self.courses_page.browser.find_element_by_class_name('course-title').text)
+        self.courses_page.wait_for_element_visibility('.courses-listing-item', 'search course')
         self.courses_page.q(css='.courses-listing-item').first.click()
-        sleep(20)
+        self.courses_page.wait_for_element_visibility('a.register', 'register')
         course_id = self.browser.current_url.split('/')[-2]
         course_about_page = CourseAboutPageExtended(self.browser, course_id)
 
@@ -78,9 +79,9 @@ class EnrollUnenroll(WebAppTest):
         self.courses_page.visit()
         self.courses_page.browser.refresh()  # to avoid errors with search courses in future actions
         self.courses_page.wait_for_page()
-        self.courses_page.is_browser_on_page()
+        self.courses_page._verify_page()
         self.courses_page.search_course(COURSE_DISPLAY_NAME)
-        sleep(20)
+        self.courses_page.wait_for_element_visibility('span.query', 'search')
         self.assertEquals(self.courses_page.q(css='span.query').text[0][1:-1], COURSE_DISPLAY_NAME)
         self.courses_page.wait_for_page()
 

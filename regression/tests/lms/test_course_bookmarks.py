@@ -3,6 +3,7 @@ End to end tests course booksmarks.
 """
 from bok_choy.web_app_test import WebAppTest
 
+from regression.pages.lms.course_about_page import CourseAboutPageExtended
 from regression.pages.lms.course_bookmarks_page import BookmarksPageExtended
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.tests.helpers.utils import (
@@ -21,9 +22,13 @@ class TestCourseBookmarks(WebAppTest):
         super(TestCourseBookmarks, self).setUp()
         self.course_info = get_course_key(get_course_info())
         self.courseware_page = CoursewarePageExtended(self.browser, self.course_info)
+        self.course_about_page = CourseAboutPageExtended(self.browser, self.course_info)
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
+
+        self.course_about_page.visit()
+        self.course_about_page.enroll_if_unenroll()
 
     def test_course_bookmarks(self):
         """
@@ -39,14 +44,12 @@ class TestCourseBookmarks(WebAppTest):
         # Add bookmark
         # Go to /bookmarks and assert that counter of bookmarks changes
         if ''.join(self.courseware_page.add_bookmark()) == u'Bookmarked':
-            self.courseware_page.visit()
             self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
             new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
             self.assertEqual(new_count_bookmarks - old_count_bookmarks, 1)
 
         else:
             self.assertEqual(''.join(self.courseware_page.add_bookmark()), u'Bookmarked')
-            self.courseware_page.visit()
             self.courseware_page.q(css='.bookmarks-list-button .is-inactive').click()
             new_count_bookmarks = len(self.courseware_page.q(css='.bookmarks-results-list .bookmarks-results-list-item').results)
             self.assertEqual(old_count_bookmarks - new_count_bookmarks, 1)

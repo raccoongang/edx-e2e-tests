@@ -1,5 +1,6 @@
 import os
 
+from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.account_settings_page import AccountSettingsPageExtended
@@ -32,6 +33,9 @@ class TestNewUserRegistration(WebAppTest):
         self.login_page = LmsLogin(self.browser)
         self.setting_page = AccountSettingsPageExtended(self.browser)
 
+    @skip(
+        'need to fix guerrillamail'
+    )
     def test_register_user(self):
         """
         Test that new user can be registered using Guerilla Mail API
@@ -54,6 +58,9 @@ class TestNewUserRegistration(WebAppTest):
 
         Helper.activate_account_updated(self, self.GuerillaMail)
 
+    @skip(
+        'need to fix guerrillamail'
+    )
     def test_reset_email(self):
         """
         Test reset email
