@@ -40,10 +40,7 @@ class LoginTest(WebAppTest):
         """
         Verifies that user can use Remember Me functionality
         """
-        cookie_name = 'stage-edx-sessionid'
-
-        if LMS_STAGE_BASE_URL != LMS_BASE_URL:
-            cookie_name = 'sessionid'
+        cookie_name = LMS_BASE_URL + '_edxapp'
 
         self.login_page.visit()
         self.login_page.provide_info(
