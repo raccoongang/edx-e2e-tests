@@ -8,8 +8,10 @@ services:
      - "5000:5000"
     volumes:
       - .:/edx-e2e-tests
+    links:
+      - firefox
   firefox:
-    image: "selenium/standalone-firefox-debug:2.53.1-beryllium"
+    image: "selenium/standalone-firefox-debug"
     ports:
       - "4444:4444"
       - "35900:5900"
