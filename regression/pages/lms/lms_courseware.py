@@ -115,3 +115,8 @@ class CoursewarePageExtended(CoursewarePage):
         # the page's name of selected(active) tab. It is
         # not required, so removing it.
         return [page.replace('\n, current location', "") for page in tab_pages]
+
+    def add_bookmark(self):
+        bookmark_button = self.q(css='.btn.btn-link.bookmark-button')
+        bookmark_button.click()
+        return self.q(css='.btn.btn-link.bookmark-button span.bookmark-text').text
