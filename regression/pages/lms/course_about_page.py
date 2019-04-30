@@ -35,7 +35,7 @@ class CourseAboutPageExtended(CourseAboutPage):
 
     def enroll_if_unenroll(self):
         if self.enroll_button.text == u'Enroll' or \
-            self.enroll_button.text == 'ENROLL IN DEMOX':
+            self.enroll_button.text == 'Enroll in E2E-101':
             self.enroll_button.click()
 
     def view_course_button(self):
