@@ -32,6 +32,7 @@ class StudioUserLogin(WebAppTest):
         Verifies that user can login and logout successfully
         """
         self.studio_login_page.visit()
+        self.studio_login_page.wait_for_page()
         self.studio_login_page.login(self.DEMO_COURSE_USER,
                                      self.DEMO_COURSE_PASSWORD)
         self.studio_home_page.wait_for_page()

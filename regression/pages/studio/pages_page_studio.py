@@ -1,6 +1,8 @@
 """
 Extended Pages page for a course.
 """
+from time import sleep
+
 from bok_choy.javascript import requirejs
 from bok_choy.promise import EmptyPromise, Promise
 
@@ -93,6 +95,7 @@ class PagesPageExtended(CoursePageExtended):
             source_index=index,
             require_notification=False
         )
+        sleep(3)  # Waiting for JS to be loaded for tinyMCE
         self.browser.execute_script(
             'tinyMCE.activeEditor.setContent("{}")'.format(new_content)
         )

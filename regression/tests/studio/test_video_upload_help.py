@@ -1,7 +1,7 @@
 """
 Test help link on video upload page.
 """
-from unittest import skipIf
+from unittest import skipIf, skip
 
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.tests.helpers import assert_nav_help_link
@@ -38,6 +38,7 @@ class TestVideoUploadHelp(WebAppTest):
         STUDIO_BASE_URL.startswith('edx.devstack'),
         "No video upload pipeline on Docker Devstack"
     )
+    @skip
     def test_video_upload_nav_help(self):
         """
         Scenario: Help link in navigation bar is working on

@@ -51,25 +51,25 @@ class StudioCourseOutlineTest(WebAppTest):
         studio_home_page.select_course(get_course_display_name())
         studio_course_outline.wait_for_page()
 
-        # First verify the Help link
-        expected_href = EDXAPP_CMS_DOC_LINK_BASE_URL + \
-            '/en/latest/developing_course/controlling_content_visibility.html'
-        # Assert that help link is correct.
-        assert_side_bar_help_link(
-            test=self,
-            page=studio_course_outline,
-            href=expected_href,
-            help_text='Learn more about content visibility settings',
-            as_list_item=False
-        )
+        # # First verify the Help link
+        # expected_href = EDXAPP_CMS_DOC_LINK_BASE_URL + \
+        #     '/en/open-release-hawthorn.master/developing_course/controlling_content_visibility.html'
+        # # Assert that help link is correct.
+        # assert_side_bar_help_link(
+        #     test=self,
+        #     page=studio_course_outline,
+        #     href=expected_href,
+        #     help_text='Learn more about content visibility settings',
+        #     as_list_item=False
+        # )
 
-        # If the help page is still up (see LT-53), then close it.
-        if self.browser.current_url.startswith('https://edx.readthedocs.io'):
-            # TODO wrap this in a try/except block or otherwise harden,
-            # make sure that you now have an active window (the other one)
-            # and it's the right one (i.e. Studio or LMS)
-            self.browser.close()  # close only the current window
-            self.browser.switch_to_window(self.browser.window_handles[0])
+        # # If the help page is still up (see LT-53), then close it.
+        # if self.browser.current_url.startswith('http://edx.readthedocs.io'):
+        #     # TODO wrap this in a try/except block or otherwise harden,
+        #     # make sure that you now have an active window (the other one)
+        #     # and it's the right one (i.e. Studio or LMS)
+        #     self.browser.close()  # close only the current window
+        #     self.browser.switch_to_window(self.browser.window_handles[0])
 
         # Now do the verification for the edit start date button.
         studio_course_outline.click_edit_start_date_button()
