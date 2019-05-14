@@ -8,8 +8,9 @@ FROM edxops/python:2.7
 MAINTAINER edxops
 
 # Install system libraries needed for lxml
-RUN apt-get update -qqy \
-    && apt-get -qqy install \
+RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && apt-get update -y \
+    && apt-get -y install \
     libxml2-dev \
     libxslt1-dev \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

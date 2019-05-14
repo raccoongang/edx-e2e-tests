@@ -51,6 +51,6 @@ class LmsLogin(LoginPage):
         """
         Clicks Remember Me checkbox
         """
-        self.q(css='#login-remember').click()
+        self.q(css='.checkbox-remember').click()
         # Click initiates an ajax call
         self.wait_for_ajax()
